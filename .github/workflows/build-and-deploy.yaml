@@ -11,15 +11,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3  # Checkout the code from the repository
 
-      #- name: Login to Docker Hub (optional)
-        # Uncomment and replace with your Docker Hub credentials if needed
-        # env:
-        #   DOCKER_USERNAME: your_docker_username
-        #   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        # run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-
       - name: Build Docker image
         run: docker build -t hello-world .  # Replace "hello-world" with your desired image name
 
       - name: Run the container locally
         run: docker run -p 5000:5000 hello-world  # Replace port mapping if needed
+      - name: Check if app is running
+        run: |
+          nc -z localhost 5000
+          if [[ $? -eq 0 ]]; then
+            echo "App is running!"
+          else
+            echo "App is not running."
+            exit 1  # Exit workflow with failure
+          fi
+
+      - name: Stop the container (if running)
+        run: docker stop hello-world  # Stop the containe
