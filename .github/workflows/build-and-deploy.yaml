@@ -13,9 +13,11 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t hello-world .  # Replace "hello-world" with your desired image name
-
-      - name: Run the container locally
-        run: docker run -p 5000:5000 hello-world  # Replace port mapping if needed
+      - name: run container
+        run: docker run -d -p 5000:5000 --health-cmd="CMD-TO-CHECK-HEALTH" --health-interval=10s --health-timeout=5s hello-world
+#      - name: Run the container locally
+#        run: docker run -p 5000:5000 hello-world  # Replace port mapping if needed
+  
       - name: Check if app is running
         run: |
           nc -z localhost 5000
