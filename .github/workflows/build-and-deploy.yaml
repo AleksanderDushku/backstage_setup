@@ -33,6 +33,3 @@ jobs:
             echo "App is not running."
             exit 1  # Exit workflow with failure
           fi
-
-      - name: Stop the container (if running)
-        run: docker stop hello-world  # Stop the containe
