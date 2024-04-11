@@ -18,11 +18,9 @@ jobs:
       - uses: actions/checkout@v3  # Checkout the code from the repository
 
       - name: Build Docker image
-        run: docker build -t hello-world .  # Replace "hello-world" with your desired image name
+        run: docker build -t ${{ github.event.inputs.name }} .
       - name: run container
-        run: docker run -d -p 5000:5000 --health-cmd="CMD-TO-CHECK-HEALTH" --health-interval=10s --health-timeout=5s hello-world
-#      - name: Run the container locally
-#        run: docker run -p 5000:5000 hello-world  # Replace port mapping if needed
+        run: docker run -d -p 5000:5000 --health-cmd="CMD-TO-CHECK-HEALTH" --health-interval=10s --health-timeout=5s ${{ github.event.inputs.name }}
   
       - name: Check if app is running
         run: |
